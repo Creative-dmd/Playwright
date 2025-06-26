@@ -1,4 +1,4 @@
-// @ts-check
+// this a playwright test for Google sign in
 import { test, expect } from '@playwright/test';
 
 test('sign in to Google', async ({ page }) => {

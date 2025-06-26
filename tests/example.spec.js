@@ -1,19 +1,19 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('sign in to Google', async ({ page }) => {
+  await page.goto('https://accounts.google.com/signin');
+  await expect(page).toHaveURL(/accounts\.google\.com\/signin/);
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  // Enter email
+  await page.fill('input[type="email"]', 'dennisdavid924@gmail.com');
+  await page.click('button:has-text("Next")');
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  // Wait for password field and enter password
+  await page.waitForSelector('input[type="password"]', { timeout: 10000 });
+  await page.fill('input[type="password"]', '021005dmd');
+  await page.click('button:has-text("Next")');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  // Wait for navigation or check for successful sign-in
+  await page.waitForURL(/myaccount\.google\.com|mail\.google\.com/, { timeout: 20000 });
 });
